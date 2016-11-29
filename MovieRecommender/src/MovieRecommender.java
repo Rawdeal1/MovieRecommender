@@ -6,12 +6,14 @@ import java.util.Scanner;
 public class MovieRecommender implements RecommenderAPI {
 	public ArrayList<Movie> movie;
 	public ArrayList<User> user;
+	public ArrayList<Rating> ratingArray;
 	private static Scanner input;
 	public int movieId = 0;
 	
 	public MovieRecommender() {
 		movie = new ArrayList<Movie>();
 		user = new ArrayList<User>();
+		ratingArray = new ArrayList<Rating>();
 		
 	}
 	
@@ -36,7 +38,7 @@ public class MovieRecommender implements RecommenderAPI {
         	   int age = Integer.parseInt(userTokens[3]);
         	   String gender = userTokens[4];
         	   String occupation = userTokens[5];
-        	   int id = Integer.parseInt(userTokens[6]);
+        	   int id = Integer.parseInt(userTokens[0]);
         	   user.add(new User(firstName, lastName, age, gender, occupation, id));
            }else
            {
@@ -94,6 +96,33 @@ public class MovieRecommender implements RecommenderAPI {
        }
 	}
 
+	 void readInRatings() throws FileNotFoundException
+		{
+			input = new Scanner(System.in);
+		    File ratingFile = new File("C:/Users/seankearney/Assignment2/MovieRecommender/Data/ratings5.dat");
+		    Scanner inUsers = new Scanner(ratingFile);
+	        //each field is separated(delimited) by a '|'
+	        String delims = "[|]";
+	        while (inUsers.hasNextLine()) 
+	        {
+	           // get data from data source
+	           String ratingInfo = inUsers.nextLine();
+	           // parse user details string
+	           String[] ratingTokens = ratingInfo.split(delims);
+	           // output user data to console.
+	           if (ratingTokens.length == 4) 
+	           {
+	        	   int userId = Integer.parseInt(ratingTokens[0]);
+	        	   int movieId = Integer.parseInt(ratingTokens[1]);
+	        	   int rating = Integer.parseInt(ratingTokens[2]);
+	        	   ratingArray.add(new Rating(userId, movieId, rating));
+	           }else
+	           {
+	               System.out.println("Invalid member length in ratings");
+	               break;
+	           }
+	       }
+		}
 	@Override
 	public void addUser(String firstName, String lastName, int age, String gender, String occupation, int id) {
 		user.add(new User(firstName, lastName, age, gender, occupation, id));
@@ -123,7 +152,7 @@ public class MovieRecommender implements RecommenderAPI {
 
 	@Override
 	public void addRating(int userID, int movieID, int rating) {
-		// TODO Auto-generated method stub
+		ratingArray.add(new Rating(userID, movieID, rating));
 		
 	}
 

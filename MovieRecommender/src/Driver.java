@@ -108,6 +108,21 @@ public class Driver {
 				movieR.addMovie(movieR.movieId, title, year, url, unknown, action, adventure, animation, children, comedy, crime, documentory, drama, fantasy, filmNoir, horror, musical, mystery, romance, sciFi, thriller, war, western);
 				movieR.movieId ++;
 				break;
+			case 5:
+				System.out.println("Enter your ID");
+				int userID = input.nextInt();
+				System.out.println("Enter Movie ID");
+				int movieID = input.nextInt();
+				System.out.println("Enter your Rating (1-5)");
+				int rating = input.nextInt();
+				while (rating > 5 || rating < 1){
+					System.out.println("Error enter a value between (1-5)");
+					System.out.println("Enter your Rating (1-5)");
+					rating = input.nextInt();
+				}
+				movieR.addRating(userID, movieID, rating);					
+				System.out.println("Rating added succesfully");
+				break;
 			case 8:
 				for(int i = 0; i < movieR.movie.size(); i++) {   
 					System.out.println(movieR.movie.get(i));
@@ -115,10 +130,14 @@ public class Driver {
 				for(int i = 0; i < movieR.user.size(); i++) {   
 					System.out.println(movieR.user.get(i));
 				}  
+				for(int i = 0; i < movieR.ratingArray.size(); i++) {   
+					System.out.println(movieR.ratingArray.get(i));
+				} 
 				break;
 			case 9:
 				movieR.readInMovies();
-				movieR.readInUser();				
+				movieR.readInUser();
+				movieR.readInRatings();
 				break;
 			}
 			
@@ -138,6 +157,7 @@ public class Driver {
 		System.out.println("2) Remove a user");
 		System.out.println("3) Select user");
 		System.out.println("4) Add movie");
+		System.out.println("4) Add Rating");
 		System.out.println("8) Print Data");
 		System.out.println("9) Load in Data");
 		System.out.println("0) Exit");
