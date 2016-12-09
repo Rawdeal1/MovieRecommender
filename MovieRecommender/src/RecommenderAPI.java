@@ -1,3 +1,5 @@
+import java.util.List;
+import java.util.Set;
 
 public interface RecommenderAPI {
 	
@@ -7,8 +9,8 @@ public interface RecommenderAPI {
 	public void addRating(int userID, int movieID, int rating);
 	public void getMovie(int movieID);
 	public void getUserRatings(int userID);
-	public void getUserRecommendations(int userID);
-	public void getTopTenMovies(int userID);
+	public Set<Integer> getUserRecommendations(int userID);
+	public Set<Integer> getTopTenMovies(int userID);
 	//load()
 	//write()
 }

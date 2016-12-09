@@ -1,8 +1,13 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Scanner;
+import java.util.Set;
 public class MovieRecommender implements RecommenderAPI {
 	public ArrayList<Movie> movie;
 	public ArrayList<User> user;
@@ -121,6 +126,12 @@ public class MovieRecommender implements RecommenderAPI {
 	               System.out.println("Invalid member length in ratings");
 	               break;
 	           }
+	           
+	           Collections.sort(ratingArray, new Comparator<Rating>(){
+	   			@Override
+	   			public int compare(Rating r1, Rating r2) {
+	   				return (int) r2.getRating() - r1.getRating();
+	   			}});
 	       }
 		}
 	@Override
@@ -169,17 +180,54 @@ public class MovieRecommender implements RecommenderAPI {
 	}
 
 	@Override
-	public void getUserRecommendations(int userID) {
-		// TODO Auto-generated method stub
+	public Set<Integer> getUserRecommendations(int userID) {
+		Set<Integer> user1;
+		Set<Integer> user2;
+		ArrayList<CompUser> compUser;
+		compUser = new ArrayList<CompUser>();	
+		user1 = getTopTenMovies(userID);
 		
+		for (User user : user)
+		{
+			int counter = 0;
+			user2 = getTopTenMovies(user.getId());
+			for (int movie : user1)
+			{
+				if (user2.contains(movie))
+				{
+					counter++;
+					System.out.println("counter incremented");
+				}
+			}
+			compUser.add(new CompUser(user.getId(), counter));
+		}
+        Collections.sort(compUser, new Comparator<CompUser>(){
+			public int compare(CompUser s1, CompUser s2) {
+				return (int) s2.getSimilar() - s1.getSimilar();
+			}});
+        int u;
+        
+        //0 will return the users own top 10.  1 will be the user with the most in common that isnt the main user.
+        u = compUser.get(1).getUser();
+        return getTopTenMovies(u);
 	}
 
 	@Override
-	public void getTopTenMovies(int userID) {
-		// TODO Auto-generated method stub
-		
+	public Set<Integer> getTopTenMovies(int userID) {
+		int k = 10;
+		Set<Integer> highRatedMovies = new HashSet<Integer>();
+		for(Rating ratingArray : ratingArray)
+		{
+			if(ratingArray.getRating() >= 2 && ratingArray.getUserId() == userID && k>0)
+			{
+				highRatedMovies.add(ratingArray.getMovieId());
+				k--;
+			}
+		}
+		return highRatedMovies;
 	}
+}
 
 	
 
-}
+

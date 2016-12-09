@@ -123,6 +123,16 @@ public class Driver {
 				movieR.addRating(userID, movieID, rating);					
 				System.out.println("Rating added succesfully");
 				break;
+			case 6:
+				System.out.println("Enter your ID: ");
+				int usersID = input.nextInt();
+				System.out.println("Your top 10 movies are " + movieR.getTopTenMovies(usersID));				
+				break;
+			case 7:
+				System.out.println("Enter your ID: ");
+				usersID = input.nextInt();
+				System.out.println("Your top 10 movies are " + movieR.getUserRecommendations(usersID));
+				break;
 			case 8:
 				for(int i = 0; i < movieR.movie.size(); i++) {   
 					System.out.println(movieR.movie.get(i));
@@ -157,7 +167,9 @@ public class Driver {
 		System.out.println("2) Remove a user");
 		System.out.println("3) Select user");
 		System.out.println("4) Add movie");
-		System.out.println("4) Add Rating");
+		System.out.println("5) Add Rating");
+		System.out.println("6) Top 10 movies");
+		System.out.println("7) Your Recommendations");
 		System.out.println("8) Print Data");
 		System.out.println("9) Load in Data");
 		System.out.println("0) Exit");
