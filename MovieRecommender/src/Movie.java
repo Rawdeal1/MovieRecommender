@@ -30,7 +30,8 @@ public class Movie {
 			String children, String comedy, String crime, String documentory, String drama, String fantasy,
 			String filmNoir, String horror, String musical, String mystery, String romance, String sciFi,
 			String thriller, String war, String western) {
-		super();
+		if(id <0 || title==null || title.isEmpty()|| url==null||url.isEmpty())
+			throw new IllegalArgumentException();
 		this.id = id;
 		this.title = title;
 		this.year = year;
@@ -40,7 +41,7 @@ public class Movie {
 		this.adventure = adventure;
 		this.animation = animation;
 		this.children = children;
-		this.comedy = comedy;
+		this.comedy = comedy; //fine fine -_-
 		this.crime = crime;
 		this.documentory = documentory;
 		this.drama = drama;

@@ -33,6 +33,4 @@ public class Rating {
 	public String toString() {
 		return "Rating [userId=" + userId + ", movieId=" + movieId + ", rating=" + uRating + "]";
 	}
-	
-	
 }

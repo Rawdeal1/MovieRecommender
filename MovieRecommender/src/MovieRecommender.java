@@ -136,8 +136,16 @@ public class MovieRecommender implements RecommenderAPI {
 		}
 	@Override
 	public void addUser(String firstName, String lastName, int age, String gender, String occupation, int id) {
-		user.add(new User(firstName, lastName, age, gender, occupation, id));
-		
+		try{
+			user.add(new User(firstName, lastName, age, gender, occupation, id));
+		}catch(IllegalArgumentException e )
+		{
+			System.out.println("Wrong input for user creation!");
+		}
+		catch(Exception e)
+		{
+			System.out.println("error!!");
+		}
 	}
 
 	@Override
@@ -157,8 +165,17 @@ public class MovieRecommender implements RecommenderAPI {
 			String animation, String children, String comedy, String crime, String documentory, String drama,
 			String fantasy, String filmNoir, String horror, String musical, String mystery, String romance,
 			String sciFi, String thriller, String war, String western) {
-		movie.add(new Movie(movieId, title, year, url, unknown, action, adventure, animation, children, comedy, crime, documentory, drama, fantasy, filmNoir, horror, musical, mystery, romance, sciFi, thriller, war, western));
-		
+		try{
+			movie.add(new Movie(movieId, title, year, url, unknown, action, adventure, animation, children, comedy, crime, documentory, drama, fantasy, filmNoir, horror, musical, mystery, romance, sciFi, thriller, war, western));
+		}
+		catch(IllegalArgumentException e )
+		{
+			System.out.println("Wrong input for user creation!");
+		}
+		catch(Exception e)
+		{
+			System.out.println("Some wierd shit just happened halp");
+		}
 	}
 
 	@Override
@@ -168,9 +185,12 @@ public class MovieRecommender implements RecommenderAPI {
 	}
 
 	@Override
-	public void getMovie(int movieID) {
-		// TODO Auto-generated method stub
-		
+	public String getMovie(int movieID) {
+		for (Movie movie: movie){
+			if (movie.getMovieId() == movieID)
+				return (movie.getTitle());
+		}
+		return null;
 	}
 
 	@Override
@@ -196,7 +216,6 @@ public class MovieRecommender implements RecommenderAPI {
 				if (user2.contains(movie))
 				{
 					counter++;
-					System.out.println("counter incremented");
 				}
 			}
 			compUser.add(new CompUser(user.getId(), counter));
@@ -206,7 +225,6 @@ public class MovieRecommender implements RecommenderAPI {
 				return (int) s2.getSimilar() - s1.getSimilar();
 			}});
         int u;
-        
         //0 will return the users own top 10.  1 will be the user with the most in common that isnt the main user.
         u = compUser.get(1).getUser();
         return getTopTenMovies(u);

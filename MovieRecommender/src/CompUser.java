@@ -9,7 +9,6 @@ public class CompUser {
 	}
 
 	public CompUser(int user, int similar) {
-		super();
 		this.user = user;
 		this.similar = similar;
 	}

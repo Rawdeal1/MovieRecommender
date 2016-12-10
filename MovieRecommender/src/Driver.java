@@ -1,6 +1,6 @@
 import java.io.FileNotFoundException;
 import java.util.Scanner;
-//testing push
+
 public class Driver {
 	private Scanner input;
 	private MovieRecommender movieR;
@@ -22,7 +22,6 @@ public class Driver {
 	void mainMenu() throws FileNotFoundException
 	{
 		//asks the user for input and sends it to the bestMatch method
-		//movieR.readInMovies();
 		int option = displayMenu();
 		
 		while (option != 0 )
@@ -126,12 +125,18 @@ public class Driver {
 			case 6:
 				System.out.println("Enter your ID: ");
 				int usersID = input.nextInt();
-				System.out.println("Your top 10 movies are " + movieR.getTopTenMovies(usersID));				
+				for(int iD : movieR.getTopTenMovies(usersID))
+				{
+					System.out.println(movieR.getMovie(iD));
+				}				
 				break;
 			case 7:
 				System.out.println("Enter your ID: ");
 				usersID = input.nextInt();
-				System.out.println("Your top 10 movies are " + movieR.getUserRecommendations(usersID));
+				for(int iD : movieR.getUserRecommendations(usersID))
+				{
+					System.out.println(movieR.getMovie(iD));
+				}
 				break;
 			case 8:
 				for(int i = 0; i < movieR.movie.size(); i++) {   

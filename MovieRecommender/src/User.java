@@ -14,7 +14,8 @@ public class User {
 				+ ", occupation=" + occupation + ", id=" + id + "]";
 	}
 	public User(String firstName, String lastName, int age, String gender, String occupation, int id) {
-		super();
+		if(firstName == null || firstName.isEmpty()||lastName == null || lastName.isEmpty()|| age<1 ||age>120)
+			throw new IllegalArgumentException();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.age = age;
