@@ -1,25 +1,24 @@
-import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class Driver {
 	private Scanner input;
 	private MovieRecommender movieR;
 	
-	public static void main (String args[]) throws FileNotFoundException
+	public static void main (String args[]) throws Exception
 	{
 		MovieRecommender movieR = new MovieRecommender();
 		new Driver();
 		movieR.readInUser();
 	}
 	
-	public Driver() throws FileNotFoundException
+	public Driver() throws Exception
 	{
 		input = new Scanner(System.in);
 		movieR = new MovieRecommender();
 		mainMenu();
 	}
 	
-	void mainMenu() throws FileNotFoundException
+	void mainMenu() throws Exception
 	{
 		//asks the user for input and sends it to the bestMatch method
 		int option = displayMenu();
@@ -54,11 +53,9 @@ public class Driver {
 				int idInput = input.nextInt();
 				movieR.removeUser(idInput); 
 				break;
-			case 3:
-				System.out.print("Enter your ID");
-				break;
-			case 4: 
+			case 3: 
 				//Sets the movie Id to the last Id in the arraylist + 1. This should make sure every entry is unique.
+				id = movieR.movie.size() + 1;
 				System.out.print("Enter Movie Title: ");
 				String title = input.next();
 				System.out.print("Enter Year: ");
@@ -107,7 +104,7 @@ public class Driver {
 				movieR.addMovie(movieR.movieId, title, year, url, unknown, action, adventure, animation, children, comedy, crime, documentory, drama, fantasy, filmNoir, horror, musical, mystery, romance, sciFi, thriller, war, western);
 				movieR.movieId ++;
 				break;
-			case 5:
+			case 4:
 				System.out.println("Enter your ID");
 				int userID = input.nextInt();
 				System.out.println("Enter Movie ID");
@@ -122,7 +119,7 @@ public class Driver {
 				movieR.addRating(userID, movieID, rating);					
 				System.out.println("Rating added succesfully");
 				break;
-			case 6:
+			case 5:
 				System.out.println("Enter your ID: ");
 				int usersID = input.nextInt();
 				for(int iD : movieR.getTopTenMovies(usersID))
@@ -130,7 +127,7 @@ public class Driver {
 					System.out.println(movieR.getMovie(iD));
 				}				
 				break;
-			case 7:
+			case 6:
 				System.out.println("Enter your ID: ");
 				usersID = input.nextInt();
 				for(int iD : movieR.getUserRecommendations(usersID))
@@ -138,7 +135,7 @@ public class Driver {
 					System.out.println(movieR.getMovie(iD));
 				}
 				break;
-			case 8:
+			case 7:
 				for(int i = 0; i < movieR.movie.size(); i++) {   
 					System.out.println(movieR.movie.get(i));
 				}  
@@ -149,10 +146,14 @@ public class Driver {
 					System.out.println(movieR.ratingArray.get(i));
 				} 
 				break;
+			case 8:
+				movieR.write();
+				break;
 			case 9:
-				movieR.readInMovies();
-				movieR.readInUser();
-				movieR.readInRatings();
+				movieR.load();
+				break;
+				default:
+				System.out.println("Wrong input");
 				break;
 			}
 			
@@ -162,24 +163,31 @@ public class Driver {
 			option = displayMenu();
 		}
 		
-		System.out.println("Goodbye!");
+		movieR.write();
+		System.out.println("Data Saved, Goodbye!");
 		System.exit(0);
 	}
 	
 	private int displayMenu()
 	{
+		System.out.println("Please use the Exit command 0 to save changes and exit.");
+		System.out.println("Choose from the options below.");
 		System.out.println("1) Add a user");
 		System.out.println("2) Remove a user");
-		System.out.println("3) Select user");
-		System.out.println("4) Add movie");
-		System.out.println("5) Add Rating");
-		System.out.println("6) Top 10 movies");
-		System.out.println("7) Your Recommendations");
-		System.out.println("8) Print Data");
-		System.out.println("9) Load in Data");
-		System.out.println("0) Exit");
-		
+		System.out.println("3) Add movie");
+		System.out.println("4) Add Rating");
+		System.out.println("5) Top 10 movies");
+		System.out.println("6) Your Recommendations");
+		System.out.println("7) Print Data");
+		System.out.println("0) Save and Exit");		
 		System.out.print(">>");
-		return input.nextInt();
+		int exep = -1;
+		try{
+			exep = input.nextInt();
+		}catch(Exception e)
+		{
+			System.out.println("Wrong input!");
+		}
+		return exep;
 	}
 }

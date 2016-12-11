@@ -5,7 +5,9 @@ public class Rating {
 	int uRating;
 			
 	public Rating(int userId, int movieId, int uRating) {
-		super();
+		if(userId <1 || movieId < 1|| uRating<-5|| uRating>5)
+			throw new IllegalArgumentException();
+		
 		this.userId = userId;
 		this.movieId = movieId;
 		this.uRating = uRating;

@@ -5,21 +5,31 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
+
 public class MovieRecommender implements RecommenderAPI {
 	public ArrayList<Movie> movie;
 	public ArrayList<User> user;
 	public ArrayList<Rating> ratingArray;
 	private static Scanner input;
 	public int movieId = 0;
+	private Serializer serializer;
 	
-	public MovieRecommender() {
+	public MovieRecommender() throws Exception {
 		movie = new ArrayList<Movie>();
 		user = new ArrayList<User>();
 		ratingArray = new ArrayList<Rating>();
-		
+		File dataFile = new File("data.xml");
+		serializer = new XMLSerializer(dataFile);
+		if(dataFile.exists()) 
+			load();
+		else
+		{
+			readInUser();
+			readInMovies();
+			readInRatings();
+		}
 	}
 	
 	 void readInUser() throws FileNotFoundException
@@ -54,8 +64,7 @@ public class MovieRecommender implements RecommenderAPI {
 	
 	
 	 void readInMovies() throws FileNotFoundException
-	{
-		MovieRecommender m = new MovieRecommender();
+	 {
 		input = new Scanner(System.in);
 	    File movieFile = new File("C:/Users/seankearney/Assignment2/MovieRecommender/Data/items5.dat");
 	    Scanner inMovie = new Scanner(movieFile);
@@ -243,7 +252,24 @@ public class MovieRecommender implements RecommenderAPI {
 			}
 		}
 		return highRatedMovies;
-	}
+	}	
+    
+    @SuppressWarnings("unchecked")
+    public void load() throws Exception
+    {
+      serializer.read();
+      ratingArray = (ArrayList<Rating>) serializer.pop();
+      user = (ArrayList<User>) serializer.pop();
+      movie = (ArrayList<Movie>) serializer.pop();
+    }
+
+	@Override
+	public void write() throws Exception {
+		serializer.push(movie);
+	      serializer.push(user);
+	      serializer.push(ratingArray);
+	      serializer.write(); 
+	}	
 }
 
 	
