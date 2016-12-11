@@ -1,3 +1,4 @@
+import java.util.Objects;
 
 public class Movie {
 	int id;
@@ -67,6 +68,43 @@ public class Movie {
 				+ musical + ", mystery=" + mystery + ", romance=" + romance + ", sciFi=" + sciFi + ", thriller="
 				+ thriller + ", war=" + war + ", western=" + western + "]";
 	}
+	
+	
+	@Override
+	  public boolean equals(final Object obj)
+	  {
+	    if (obj instanceof Movie)
+	    {
+	      final Movie other = (Movie) obj;
+	      return Objects.equals(id, other.id) 
+	          && Objects.equals(title, other.title)
+	          && Objects.equals(year,     other.year)
+	          && Objects.equals(url,  other.url)
+	          && Objects.equals(unknown, other.unknown)
+	          && Objects.equals(action, other.action)
+	          && Objects.equals(adventure, other.adventure)
+	          && Objects.equals(animation, other.animation)
+	          && Objects.equals(children, other.children)
+	          && Objects.equals(comedy, other.comedy)
+	          && Objects.equals(crime, other.crime)
+	          && Objects.equals(documentory, other.documentory)
+	          && Objects.equals(drama, other.drama)
+	          && Objects.equals(fantasy, other.fantasy)
+	          && Objects.equals(filmNoir, other.filmNoir)
+	          && Objects.equals(horror, other.horror)
+	          && Objects.equals(musical, other.musical)
+	          && Objects.equals(mystery, other.mystery)
+	          && Objects.equals(romance, other.romance)
+	          && Objects.equals(sciFi, other.sciFi)
+	          && Objects.equals(thriller, other.thriller)
+	          && Objects.equals(war, other.war)
+	          && Objects.equals(western, other.western);		      
+	    }
+	    else
+	    {
+	      return false;
+	    }
+	  }
 
 
 

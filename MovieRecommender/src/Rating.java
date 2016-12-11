@@ -1,3 +1,4 @@
+import java.util.Objects;
 
 public class Rating {
 	int userId;
@@ -12,6 +13,22 @@ public class Rating {
 		this.movieId = movieId;
 		this.uRating = uRating;
 	}
+	
+	@Override
+	  public boolean equals(final Object obj)
+	  {
+	    if (obj instanceof Rating)
+	    {
+	      final Rating other = (Rating) obj;
+	      return Objects.equals(userId, other.userId) 
+	          && Objects.equals(movieId, other.movieId)
+	          && Objects.equals(uRating, other.uRating);
+	    }
+	    else
+	    {
+	      return false;
+	    }
+	  }
 	public int getUserId() {
 		return userId;
 	}

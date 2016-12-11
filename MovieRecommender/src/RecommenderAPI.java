@@ -13,4 +13,7 @@ public interface RecommenderAPI {
 	public Set<Integer> getTopTenMovies(int userID);
 	public void load() throws Exception;
 	public void write()throws Exception;
+	public List<User> getUsers();
+	public List<Movie> getMovies();
+	public List<Rating> getRatings();
 }

@@ -5,13 +5,14 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
 
 public class MovieRecommender implements RecommenderAPI {
-	public ArrayList<Movie> movie;
-	public ArrayList<User> user;
-	public ArrayList<Rating> ratingArray;
+	private ArrayList<Movie> movie;
+	private ArrayList<User> user;
+	private ArrayList<Rating> ratingArray;
 	private static Scanner input;
 	public int movieId = 0;
 	private Serializer serializer;
@@ -32,6 +33,11 @@ public class MovieRecommender implements RecommenderAPI {
 		}
 	}
 	
+	
+	/**
+	 * Reads in the user list from users5.dat
+	 * @throws FileNotFoundException
+	 */
 	 void readInUser() throws FileNotFoundException
 	{
 		input = new Scanner(System.in);
@@ -62,7 +68,10 @@ public class MovieRecommender implements RecommenderAPI {
        }
 	}
 	
-	
+	/**
+	 * reads in movies from items5.dat
+	 * @throws FileNotFoundException
+	 */
 	 void readInMovies() throws FileNotFoundException
 	 {
 		input = new Scanner(System.in);
@@ -110,6 +119,11 @@ public class MovieRecommender implements RecommenderAPI {
        }
 	}
 
+	 
+	 /**
+	  * Reads in ratings from ratings5.dat
+	  * @throws FileNotFoundException
+	  */
 	 void readInRatings() throws FileNotFoundException
 		{
 			input = new Scanner(System.in);
@@ -143,6 +157,10 @@ public class MovieRecommender implements RecommenderAPI {
 	   			}});
 	       }
 		}
+	 
+	 /**
+	  * adds a user to the arraylist user
+	  */
 	@Override
 	public void addUser(String firstName, String lastName, int age, String gender, String occupation, int id) {
 		try{
@@ -157,6 +175,9 @@ public class MovieRecommender implements RecommenderAPI {
 		}
 	}
 
+	/**
+	 * removes a user from arraylist user
+	 */
 	@Override
 	public void removeUser(int idInput) {
 		Iterator<User> it = user.iterator();
@@ -169,6 +190,9 @@ public class MovieRecommender implements RecommenderAPI {
 		}		
 	}
 
+	/**
+	 * adds movie to arraylist movie
+	 */
 	@Override
 	public void addMovie(int movieId, String title, String year, String url, String unknown, String action, String adventure,
 			String animation, String children, String comedy, String crime, String documentory, String drama,
@@ -183,16 +207,23 @@ public class MovieRecommender implements RecommenderAPI {
 		}
 		catch(Exception e)
 		{
-			System.out.println("Some wierd shit just happened halp");
+			System.out.println("Error");
 		}
 	}
 
+	
+	/**
+	 * Adds a rating to arraylist ratingArray
+	 */
 	@Override
 	public void addRating(int userID, int movieID, int rating) {
 		ratingArray.add(new Rating(userID, movieID, rating));
 		
 	}
 
+	/**
+	 * converts movie ID to a movie title
+	 */
 	@Override
 	public String getMovie(int movieID) {
 		for (Movie movie: movie){
@@ -202,12 +233,10 @@ public class MovieRecommender implements RecommenderAPI {
 		return null;
 	}
 
-	@Override
-	public void getUserRatings(int userID) {
-		// TODO Auto-generated method stub
-		
-	}
-
+	/**
+	 * compares users top 10 movies to every other user
+	 * and returns a list of recommendations based on common high ratings
+	 */
 	@Override
 	public Set<Integer> getUserRecommendations(int userID) {
 		Set<Integer> user1;
@@ -239,6 +268,11 @@ public class MovieRecommender implements RecommenderAPI {
         return getTopTenMovies(u);
 	}
 
+	
+	/**
+	 * Gets users top 10 rated movies. 
+	 * Will return less than 10 if user hasnt rated up to 10 movies as >2
+	 */
 	@Override
 	public Set<Integer> getTopTenMovies(int userID) {
 		int k = 10;
@@ -254,7 +288,11 @@ public class MovieRecommender implements RecommenderAPI {
 		return highRatedMovies;
 	}	
     
-    @SuppressWarnings("unchecked")
+    
+	/**
+	 * Reads data from XML file
+	 */
+	@SuppressWarnings("unchecked")
     public void load() throws Exception
     {
       serializer.read();
@@ -263,13 +301,41 @@ public class MovieRecommender implements RecommenderAPI {
       movie = (ArrayList<Movie>) serializer.pop();
     }
 
+	
+	/**
+	 * Writes data to XML file
+	 */
 	@Override
 	public void write() throws Exception {
 		serializer.push(movie);
 	      serializer.push(user);
 	      serializer.push(ratingArray);
 	      serializer.write(); 
+	}
+
+
+	@Override
+	public List<User> getUsers() {
+		return user;
+	}
+
+	@Override
+	public List<Movie> getMovies() {
+		return movie;
 	}	
+	
+	public List<Rating> getRatings()
+	{
+		return ratingArray;
+	}
+
+
+	
+	@Override
+	public void getUserRatings(int userID) {
+		// not needed
+		
+	}
 }
 
 	

@@ -1,3 +1,4 @@
+import java.util.Objects;
 
 public class User {
 	
@@ -59,4 +60,22 @@ public class User {
 	public void setOccupation(String occupation) {
 		this.occupation = occupation;
 	}
+	
+	@Override
+	  public boolean equals(final Object obj)
+	  {
+	    if (obj instanceof User)
+	    {
+	      final User other = (User) obj;
+	      return Objects.equals(firstName, other.firstName) 
+	          && Objects.equals(lastName,  other.lastName)
+	          && Objects.equals(age,     other.age)
+	          && Objects.equals(gender,  other.gender)
+	          && Objects.equals(occupation, other.occupation);
+	    }
+	    else
+	    {
+	      return false;
+	    }
+	  }
 }
